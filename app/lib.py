@@ -9,7 +9,7 @@ def _get_json(mac):
     return response.json()
 
 def _cook_json(rawdata):
-    # TODO
+    # todo
     consumption = 99
     return consumption
 

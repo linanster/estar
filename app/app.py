@@ -2,6 +2,7 @@ from flask import Flask
 from models import init_models
 from views import init_views
 from loginmanager import init_loginmanager
+from bootstrap import init_bootstrap
 
 def create_app():
     app = Flask(__name__)
@@ -9,4 +10,5 @@ def create_app():
     init_models(app)
     init_views(app)
     init_loginmanager(app)
+    init_bootstrap(app)
     return app

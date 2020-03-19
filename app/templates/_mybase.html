@@ -1,0 +1,35 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block head %}
+  {{ super() }}
+  <!-- <link href="{{ url_for('static',filename='site.css') }}" rel="stylesheet"> -->
+{% endblock %}
+
+{% block body%}
+  {{ super() }}
+  {% block footer %}
+    <footer class="bottom-right">
+        Copyright 2020 by <a href="https://www.ge.com/cn/">GE Lighting</a>
+    </footer>
+  {% endblock %}
+{% endblock body %}
+
+{% block metas %}  
+  {{ super() }}
+  <meta charset="UTF-8">
+{% endblock %}
+
+{% block title %}Energy Star Query Portal{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.min.css') }}">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/3.4.1/flatly/bootstrap.min.css"> -->
+{% endblock %}
+
+{% block navbar %}
+    {# {{ nav.top.render() }} #}
+    {# {% include '_navbar.html' %} #}
+{% endblock %}
+
+

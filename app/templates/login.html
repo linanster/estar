@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>GE Lighting Energy Star</title>
-</head>
-<body>
-<h1>Login</h1>
+{% extends '_mybase.html' %}
+
+{% block content %}
+<h6>Login</h6>
 <form action="/login" method="post">
     <input type="text" name="username" placeholder="username">
     <input type="password" name="password" placeholder="password">
     <input type="submit">
 	<br>
-	{{msg}}
-    <!-- <img src="/xxxxxx/111.jpg" alt=""> -->
 </form>
-</body>
-</html>
-
+{% endblock content %}

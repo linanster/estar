@@ -1,7 +1,10 @@
-{% extends '_mybase.html' %}
-
-{% block content%}
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GE Lighting Energy Star</title>
+</head>
+<body>
     {% if current_user.is_authenticated %}
     Welcome, {{ current_user.username }} | 
     <a href="{{ url_for('auth.logout') }}">logout</a> | 
@@ -10,7 +13,9 @@
     Welcome, please 
     <a href="{{ url_for('auth.login') }}">login</a>
     {% endif %}
+    
     <hr>
+    Query<br>
     <form action="/query" method="post">
     <input type="text" name="mac" placeholder="ble mac address">
     <input type="submit">
@@ -21,5 +26,5 @@
     Result<br>
     Consumption: {{ consumption }}
     {% endif %}
-
-{% endblock %}
+</body>
+</html>
