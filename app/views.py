@@ -27,6 +27,7 @@ def index():
 def query():
     mac = request.form.get('mac')
     consumption = get_consumption(mac)
+    print('==consumption==', consumption)
     return redirect(url_for('main.index', consumption=consumption))
 
 @main.route('/about')
