@@ -3,6 +3,7 @@ from flask import Blueprint
 from flask_login import LoginManager, login_user, logout_user, login_required
 
 from models import User
+from lib import get_consumption
 
 auth = Blueprint('auth', __name__)
 main = Blueprint('main', __name__)
@@ -13,14 +14,25 @@ def init_views(app):
 
 @main.route('/')
 @main.route('/index')
+@login_required
 def index():
-    return render_template('index.html')
+    consumption = request.args.get('consumption')
+    if consumption:
+        return render_template('index.html', consumption=consumption)
+    else:
+        return render_template('index.html')
+
+@main.route('/query', methods=['POST'])
+@login_required
+def query():
+    mac = request.form.get('mac')
+    consumption = get_consumption(mac)
+    return redirect(url_for('main.index', consumption=consumption))
 
 @main.route('/about')
 @login_required
 def about():
     return render_template('about.html')
-
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():

@@ -13,5 +13,18 @@
     Welcome, please 
     <a href="{{ url_for('auth.login') }}">login</a>
     {% endif %}
+    
+    <hr>
+    Query<br>
+    <form action="/query" method="post">
+    <input type="text" name="mac" placeholder="ble mac address">
+    <input type="submit">
+    </form>
+    <br>
+    {% if consumption %}
+    <hr>
+    Result<br>
+    Consumption: {{ consumption }}
+    {% endif %}
 </body>
 </html>
