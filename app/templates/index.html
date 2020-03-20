@@ -13,13 +13,15 @@
     <hr>
     <form action="/query" method="post">
     <input type="text" name="mac" placeholder="ble mac address">
-    <input type="submit">
+    <input type="submit" value="Query">
     </form>
     <br>
     {% if consumption %}
     <hr>
-    Result<br>
-    Consumption: {{ consumption }}
+    <p>energy consumption over <strong>last 24 hours</strong>  estimation | {{consumption}}</p>
+    <p>energy consumption over <strong>last 1 day</strong>  estimation | {{consumption}}</p>
+    <p>energy consumption over <strong>last 1 month</strong> estimation | {{consumption}}</p>
     {% endif %}
+    <br>
 
 {% endblock %}
