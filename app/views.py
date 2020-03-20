@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask_login import LoginManager, login_user, logout_user, login_required
 
 from models import User
-from lib import get_consumption
+from mylib import get_consumption
 
 auth = Blueprint('auth', __name__)
 main = Blueprint('main', __name__)
@@ -46,7 +46,7 @@ def login():
         login_user(user)
         return redirect(url_for('main.index'))
     else:
-        return render_template('login.html', msg="login failed!")
+        return render_template('login.html', warning="login failed!")
 
 
 @auth.route('/logout')

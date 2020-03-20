@@ -1,6 +1,7 @@
 {% extends '_mybase.html' %}
 
 {% block content %}
+{{ super() }}
 <h6>Login</h6>
 <form action="/login" method="post">
     <input type="text" name="username" placeholder="username">
@@ -8,6 +9,7 @@
     <input type="submit">
 	<br>
 </form>
+<p class="text-warning">{{ warning }}</p>
 {% endblock content %}
 
 

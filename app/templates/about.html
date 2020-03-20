@@ -1,18 +1,18 @@
 {% extends '_mybase.html' %}
 
 {% block content %}
-<br>
-<p>This is the energy comsumption query portal supporting four device types:</p>
+{{ super() }}
+  Welcome, {{ current_user.username }} |
+  <a href="{{ url_for('main.index') }}">return</a>
+  <hr>
+  <p>This is the energy comsumption query portal supporting four device types:</p>
 
-C life:<br>
-CLEDA199L2/ST@ | GE Standalone | 0x0D <br>
-CLEDA199L2/G@ | Made for Google | 0x1B <br>
-<br>
-Full Color A19:<br>
-CLEDA1911C2/G@ | Made for Google | 0x06<br>
-CLEDA1911C2/ST@ | Standard | 0x15<br>
-<br>
-<!-- <a href="{{ url_for('main.index') }}" class="btn btn-default">Return</a> -->
-<a href="{{ url_for('main.index') }}">Return</a>
+  <strong>C life:</strong><br>
+  CLEDA199L2/ST@ | GE Standalone | 0x0D <br>
+  CLEDA199L2/G@ | Made for Google | 0x1B <br>
+  <br>
+  <strong>Full Color A19:</strong><br>
+  CLEDA1911C2/G@ | Made for Google | 0x06<br>
+  CLEDA1911C2/ST@ | Standard | 0x15<br>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends '_mybase.html' %}
 
 {% block content%}
-
+    {{ super() }}
     {% if current_user.is_authenticated %}
     Welcome, {{ current_user.username }} | 
     <a href="{{ url_for('auth.logout') }}">logout</a> | 
@@ -18,9 +18,10 @@
     <br>
     {% if consumption %}
     <hr>
-    <p>energy consumption over <strong>last 24 hours</strong>  estimation | {{consumption}}</p>
-    <p>energy consumption over <strong>last 1 day</strong>  estimation | {{consumption}}</p>
-    <p>energy consumption over <strong>last 1 month</strong> estimation | {{consumption}}</p>
+    <nohr>
+    <span>energy consumption over <strong>last 24 hours</strong>  estimation :</span>
+    <span class="text-success" > {{consumption}}</span>
+    </nohr>
     {% endif %}
     <br>
 
