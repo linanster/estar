@@ -1,0 +1,22 @@
+
+item1 = {'status': 0, 'online': 1, 'cct': 100, 'brightness': 1, 'deviceid': 21}
+item2 = {'status': 1, 'online': 1, 'cct': 100, 'brightness': 1, 'deviceid': 13}
+item3 = {'status': 1, 'online': 1, 'cct': 255, 'brightness': 1, 'deviceid': 6}
+item4 = {'status': 1, 'online': 1, 'cct': 100, 'brightness': 1, 'deviceid': 6}
+item5 = {'status': 1, 'online': 1, 'cct': 50, 'brightness': 100, 'deviceid': 6}
+
+In [10]: import myclass, mylib                                                                                                                            
+
+In [11]: item2 = {'status': 1, 'online': 1, 'cct': 100, 'brightness': 1, 'deviceid': 13}                                                                  
+
+In [12]: raw = mylib._get_json('456')                                                                                                                     
+
+In [13]: c = myclass.CookJson(raw)                                                                                                                        
+
+In [14]: c.gen_items()                                                                                                                                    
+
+In [15]: c.calc_sum()                                                                                                                                     
+
+In [16]: c.sum                                                                                                                                            
+Out[16]: 54.36223199999999
+
