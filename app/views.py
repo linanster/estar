@@ -22,10 +22,15 @@ def index():
     else:
         return render_template('index.html')
 
-@main.route('/query', methods=['POST'])
+@main.route('/query', methods=['GET', 'POST'])
 @login_required
 def query():
+    if request.method == 'GET':
+        return redirect(url_for('main.index'))
     mac = request.form.get('mac')
+    print('==mac==', mac)
+    # if mac is None:
+    #     return redirect(url_for('main.index'))
     consumption = get_consumption(mac)
     print('==consumption==', consumption)
     return redirect(url_for('main.index', consumption=consumption))
