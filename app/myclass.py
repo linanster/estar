@@ -22,6 +22,7 @@ class EnergyItem(object):
     def __init__(self, item):
         self.consumption = 0
         self.power = 0
+        # item format like: {'status': 1, 'online': 1, 'cct': 100, 'brightness': 100, 'deviceid': 13}
         self.item = item
         self.formula = None
         self.brightness = item.get('brightness')/100
@@ -62,6 +63,7 @@ class EnergyItem(object):
         else:
             self.power = self.formula(self.brightness)
         # energy consumptoion in unit Joule
+        # half one hour = 30 * 60 seconds
         self.consumption = self.power * 30 * 60
             
 
@@ -98,6 +100,7 @@ class RawParser(object):
             item['online'] = datapoint.get('online')
             item['cct'] = datapoint.get('cct')
             item['brightness'] = datapoint.get('brightness')
+            # deviceid
             item['deviceid'] = deviceid
             self.items.append(item) 
 
