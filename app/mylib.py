@@ -15,6 +15,11 @@ def _cook_json(raw):
     return c.sum
 
 def get_consumption(mac):
-    raw = _get_json(mac)
-    return _cook_json(raw)
+    try:
+        raw = _get_json(mac)
+        return _cook_json(raw)
+    except Exception as e:
+        print("[error]",str(e))
+        return -1
+    
 

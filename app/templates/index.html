@@ -35,6 +35,9 @@
     (<span class="text-success">{{consumption_kwh}}</span> kwh)
     </nohr>
     {% endif %}
+    {% if errmsg %}
+    <span class="text-danger">{{errmsg}}</span>
+    {% endif %}
     <br>
 
 {% endblock %}

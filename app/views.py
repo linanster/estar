@@ -1,6 +1,6 @@
 from flask import render_template, url_for, request, redirect
 from flask import Blueprint
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required
 
 from models import User
 from mylib import get_consumption
@@ -18,7 +18,9 @@ def init_views(app):
 def index():
     consumption = request.args.get('consumption')
     consumption_kwh = request.args.get('consumption_kwh')
-    if consumption:
+    if '-1' == consumption:
+        return render_template('index.html', errmsg="error")
+    elif consumption:
         return render_template('index.html', consumption=consumption, consumption_kwh=consumption_kwh)
     else:
         return render_template('index.html')
@@ -29,11 +31,9 @@ def query():
     if request.method == 'GET':
         return redirect(url_for('main.index'))
     mac = request.form.get('mac')
-    print('==mac==', mac)
-    # if mac is None:
-    #     return redirect(url_for('main.index'))
     consumption = get_consumption(mac)
     consumption_kwh = consumption/(1000*3600)
+    print('==mac==', mac)
     print('==consumption==', consumption)
     print('==consumption_kwh==', consumption_kwh)
     return redirect(url_for('main.index', consumption=consumption, consumption_kwh=consumption_kwh))
