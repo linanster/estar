@@ -17,8 +17,9 @@ def init_views(app):
 @login_required
 def index():
     consumption = request.args.get('consumption')
+    consumption_kwh = request.args.get('consumption_kwh')
     if consumption:
-        return render_template('index.html', consumption=consumption)
+        return render_template('index.html', consumption=consumption, consumption_kwh=consumption_kwh)
     else:
         return render_template('index.html')
 
@@ -32,8 +33,10 @@ def query():
     # if mac is None:
     #     return redirect(url_for('main.index'))
     consumption = get_consumption(mac)
+    consumption_kwh = consumption/(1000*3600)
     print('==consumption==', consumption)
-    return redirect(url_for('main.index', consumption=consumption))
+    print('==consumption_kwh==', consumption_kwh)
+    return redirect(url_for('main.index', consumption=consumption, consumption_kwh=consumption_kwh))
 
 @main.route('/about')
 @login_required

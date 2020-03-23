@@ -4,6 +4,7 @@ import json
 fd = open('raw.json', 'r')
 rawdata = json.load(fd)
 # print(rawdata)
+fd.close()
 
 app = Flask(__name__)
 
@@ -11,6 +12,10 @@ app = Flask(__name__)
 def estar():
     mac = request.args.get('mac')
     print('==mac==',mac)
+    fd = open('raw.json', 'r')
+    rawdata = json.load(fd)
+    # print(rawdata)
+    fd.close()
     return rawdata
 
 

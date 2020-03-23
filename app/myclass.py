@@ -13,17 +13,20 @@ class CookJson(object):
     def calc_sum(self):
         for item in self.items:
             e = EnergyItem(item)
-            self.sum += e.calc_item()
+            e.calc_item()
+            self.sum += e.consumption
         
 
 class EnergyItem(object):  
     
     def __init__(self, item):
         self.consumption = 0
+        self.power = 0
         self.item = item
         self.formula = None
         self.brightness = item.get('brightness')/100
-        self.cct = item.get('cct') * 50
+        self.cct_raw = self.item.get('cct') 
+        self.cct = 2000 + item.get('cct') * 50
         self.cctrequired = False
 
     def formula_select(self):
@@ -38,7 +41,7 @@ class EnergyItem(object):
         # fullcolor
         elif deviceid in (6, 21):
             # rgb mode 
-            if self.cct > 100:
+            if self.cct_raw > 100:
                 self.formula = formular_fullcolor_rgb
             # cct mode
             else:
@@ -48,20 +51,23 @@ class EnergyItem(object):
                 else:
                     self.formula = formula_fullcolor_cct_high
         else:
-            pass
+            # todo
+            raise Exception('deviceid not supported')
+            # pass
 
     def formula_run(self):
+        # power in unit Watt
         if self.cctrequired:
-            cct = 50 * self.cct
-            self.consumption = self.formula(self.brightness, cct)
+            self.power = self.formula(self.brightness, self.cct)
         else:
-            self.consumption = self.formula(self.brightness)
+            self.power = self.formula(self.brightness)
+        # energy consumptoion in unit Joule
+        self.consumption = self.power * 30 * 60
             
 
     def calc_item(self):
         self.formula_select()
         self.formula_run() 
-        return self.consumption
 
 
 class RawParser(object):
