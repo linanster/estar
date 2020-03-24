@@ -34,6 +34,9 @@ class EnergyItem(object):
         deviceid = self.item.get('deviceid')
         status = self.item.get('status')
         online = self.item.get('online')
+        # device type restriction, only support 4 types
+        if deviceid not in (13,27,6,21):
+            raise DeviceTypeException(deviceid)
         if status == 0 or online == 0:
             self.formula = formula_off
         # clife
@@ -104,6 +107,10 @@ class RawParser(object):
             item['deviceid'] = deviceid
             self.items.append(item) 
 
+class DeviceTypeException(Exception):
+    def __init__(self,deviceid):
+        self.deviceid = deviceid
+        self.err_msg = "the device type [ " + str(deviceid) + " ] you querying" + " is not in support list [ 13, 27, 6, 21 ]"
 
 def formula_clife(x):
     return 9.2707*x*x - 0.978*x + 0.6813

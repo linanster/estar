@@ -1,5 +1,5 @@
 from requests import request
-from myclass import CookJson
+from myclass import CookJson, DeviceTypeException
 
 prefix = r'http://10.30.30.101:5001/estar?mac='
 
@@ -15,11 +15,18 @@ def _cook_json(raw):
     return c.sum
 
 def get_consumption(mac):
+    consumption = 0
+    errno = 0
+    errmsg = str()
     try:
         raw = _get_json(mac)
-        return _cook_json(raw)
+        consumption = _cook_json(raw)
+    except DeviceTypeException as e:
+        errno = -2
+        errmsg = e.err_msg
     except Exception as e:
-        print("[error]",str(e))
-        return -1
-    
+        errno = -1
+        errmsg = str(e) 
+    finally:
+        return (consumption, errno, errmsg)
 
