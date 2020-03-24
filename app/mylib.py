@@ -11,7 +11,7 @@ prefix = r'https://api-iot-ge.xlink.cloud/ge/v1/find_device_state?mac='
 
 def _get_json(mac):
     endpoint = prefix + str(mac)
-    response = request(method='GET', url=endpoint, verify=False)
+    response = request(method='GET', url=endpoint, verify=False, timeout=20)
     return response.json()
 
 def _cook_json(raw):
