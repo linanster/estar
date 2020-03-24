@@ -32,6 +32,8 @@ class EnergyItem(object):
 
     def formula_select(self):
         deviceid = self.item.get('deviceid')
+        # initial variable type of xlink api json is str, not int. This is awesome bad!
+        deviceid = int(deviceid)
         status = self.item.get('status')
         online = self.item.get('online')
         # device type restriction, only support 4 types

@@ -6,8 +6,8 @@ from myclass import CookJson, DeviceTypeException
  
 disable_warnings(InsecureRequestWarning)
 
-prefix = r'http://10.30.30.101:5001/estar?mac='
-# prefix = r'https://api-iot-ge.xlink.cloud/ge/v1/find_device_state?mac='
+# prefix = r'http://10.30.30.101:5001/estar?mac='
+prefix = r'https://api-iot-ge.xlink.cloud/ge/v1/find_device_state?mac='
 
 def _get_json(mac):
     endpoint = prefix + str(mac)
