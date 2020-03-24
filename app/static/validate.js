@@ -12,7 +12,7 @@ function validate_format(field,alerttxt)
 {
 with (field)
   {
-    var macReg=/^[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}$/i;
+    var macReg=/^[0-9a-fA-F]{12}$/i;
     if (macReg.test(value))
       {return true}
     else
