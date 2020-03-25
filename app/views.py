@@ -26,6 +26,7 @@ def query():
     if request.method == 'GET':
         return redirect(url_for('main.index'))
     mac = request.form.get('mac')
+    mac = transform(mac)
     consumption_j, consumption_kwh, errno, errmsg = get_consumption(mac)
     if Debug:
         print('==mac==', mac)
@@ -59,3 +60,11 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+def transform(mac):
+# mac format on App side: "A4:C1:38:6D:40:1D"
+# mac format on database side: "1D406D38C1A4"
+    mac_list = mac.split(':')
+    mac_list.reverse()
+    mac_new = "".join(mac_list)
+    return mac_new
