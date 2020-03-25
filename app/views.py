@@ -18,7 +18,7 @@ def init_views(app):
 @main.route('/index')
 @login_required
 def index():
-    return render_template('index.html')
+    return render_template('index.html', new=1)
 
 @main.route('/query', methods=['GET', 'POST'])
 @login_required
@@ -26,20 +26,15 @@ def query():
     if request.method == 'GET':
         return redirect(url_for('main.index'))
     mac = request.form.get('mac')
-    consumption, errno, errmsg = get_consumption(mac)
-    consumption_kwh = consumption/(1000*3600)
+    consumption_j, consumption_kwh, errno, errmsg = get_consumption(mac)
     if Debug:
         print('==mac==', mac)
-        print('==consumption==', consumption)
+        print('==consumption_j==', consumption_j)
+        print('==consumption_kwh==', consumption_kwh)
         print('==errno==', errno)
         print('==errmsg==', errmsg)
-        print('==consumption_kwh==', consumption_kwh)
-    if errno == -1:
-        # exposing original error message to user is not friendly
-        return render_template('index.html', errmsg='unknown error')
-    if errno == -2:
-        return render_template('index.html', errmsg=errmsg)
-    return render_template('index.html', consumption=consumption, consumption_kwh=consumption_kwh)
+    params = {"consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "errno":errno, "errmsg":errmsg, "query":True}
+    return render_template('index.html', **params)
 
 @main.route('/about')
 @login_required

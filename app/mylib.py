@@ -2,7 +2,7 @@ from requests import request
 from requests.packages.urllib3 import disable_warnings
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
-from myclass import CookJson, DeviceTypeException
+from myclass import CookJson, DeviceTypeException, DeviceNotFoundException
  
 disable_warnings(InsecureRequestWarning)
 
@@ -21,18 +21,29 @@ def _cook_json(raw):
     return c.sum
 
 def get_consumption(mac):
-    consumption = 0
+    consumption_j = 0
+    consumption_kwh = 0
     errno = 0
     errmsg = str()
     try:
         raw = _get_json(mac)
-        consumption = _cook_json(raw)
+        consumption_j = _cook_json(raw)
+        
+        consumption_kwh = consumption_j/(1000*3600)
+        consumption_j = round(consumption_j, 3)
+        consumption_kwh = round(consumption_kwh, 3)
+        
+    except DeviceNotFoundException as e:
+        errno = -3
+        errmsg = e.err_msg
+
     except DeviceTypeException as e:
         errno = -2
         errmsg = e.err_msg
     except Exception as e:
         errno = -1
-        errmsg = str(e) 
+        # errmsg = str(e) 
+        errmsg = 'unknown error'
     finally:
-        return (consumption, errno, errmsg)
+        return (consumption_j, consumption_kwh, errno, errmsg)
 

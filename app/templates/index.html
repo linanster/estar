@@ -27,16 +27,15 @@
     <br>
     format example: 123456abcdef
     <br>
-    {% if consumption %}
+    {% if query %}
     <hr>
-    <nohr>
+    {% if errno == 0 %}
     <span>energy consumption over <strong>last 24 hours</strong>  estimation :</span>
-    <span class="text-success" > {{consumption}}</span> J  
+    <span class="text-success" > {{consumption_j}}</span> J  
     (<span class="text-success">{{consumption_kwh}}</span> kwh)
-    </nohr>
-    {% endif %}
-    {% if errmsg %}
+    {% else %}
     <span class="text-danger">{{errmsg}}</span>
+    {% endif %}
     {% endif %}
     <br>
 

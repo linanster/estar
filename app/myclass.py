@@ -96,8 +96,15 @@ class RawParser(object):
         return self.raw.get('mac')
         
     def gen_items(self):
+        # errno handler
+        errno = self.get_errno()
+        if errno == 400:
+            raise DeviceNotFoundException()
+
+        if errno == 0:
+            pass
+
         deviceid = self.get_deviceid()
-        
         datapoints = self.raw.get('datapoints')
         for datapoint in datapoints:
             item = dict()
@@ -113,6 +120,10 @@ class DeviceTypeException(Exception):
     def __init__(self,deviceid):
         self.deviceid = deviceid
         self.err_msg = "the device type [ " + str(deviceid) + " ] you querying" + " is not in support list [ 13, 27, 6, 21 ]"
+
+class DeviceNotFoundException(Exception):
+    def __init__(self):
+        self.err_msg = "device not found"
 
 def formula_clife(x):
     return 9.2707*x*x - 0.978*x + 0.6813
