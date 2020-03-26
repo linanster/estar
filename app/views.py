@@ -4,8 +4,9 @@ from flask_login import login_user, logout_user, login_required
 
 from models import User
 from mylib import get_consumption
+from settings import Debug
 
-Debug = True
+# Debug = True
 
 auth = Blueprint('auth', __name__)
 main = Blueprint('main', __name__)
@@ -67,4 +68,5 @@ def transform(mac):
     mac_list = mac.split(':')
     mac_list.reverse()
     mac_new = "".join(mac_list)
-    return mac_new
+    # case sensitive
+    return mac_new.upper()

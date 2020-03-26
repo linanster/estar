@@ -1,3 +1,4 @@
+from settings import Debug
 
 class CookJson(object):
     def __init__(self, raw):
@@ -36,6 +37,9 @@ class EnergyItem(object):
         deviceid = int(deviceid)
         status = self.item.get('status')
         online = self.item.get('online')
+        if Debug:
+            self.formula = formula_clife
+            return
         # device type restriction, only support 4 types
         if deviceid not in (13,27,6,21):
             raise DeviceTypeException(deviceid)

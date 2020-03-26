@@ -4,3 +4,4 @@ DEBUG = False
 SQLALCHEMY_DATABASE_URI = 'sqlite:///secret.sqlite3'
 # HOST = '0.0.0.0'
 # PORT = 5001
+Debug = True
