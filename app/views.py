@@ -35,6 +35,7 @@ def query():
         print('==consumption_kwh==', consumption_kwh)
         print('==errno==', errno)
         print('==errmsg==', errmsg)
+        print('')
     params = {"consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "errno":errno, "errmsg":errmsg, "query":True}
     return render_template('index.html', **params)
 
