@@ -12,4 +12,9 @@ pip3 install -r requirements.txt
 4. start up application
 gunicorn [--daemon] -w 4 -b 0.0.0.0:5000 wsgi:application 
 
+5. cp estar.service /usr/lib/systemd/system/
+systemctl enable estar.service && systemctl start estar.service
 
+6. create ssl cert&key files
+- openssl genrsa -out server.key 2048
+- openssl req -new -x509 -key server.key -out server.cert 

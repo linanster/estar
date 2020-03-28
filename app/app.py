@@ -5,6 +5,8 @@ from models import init_models
 from views import init_views
 from loginmanager import init_loginmanager
 from bootstrap import init_bootstrap
+import os
+
 
 def create_app():
     app = Flask(__name__)
@@ -18,4 +20,9 @@ def create_app():
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+    appdir = os.path.abspath(os.path.dirname(__file__))
+    topdir = os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
+    certfile = os.path.join(topdir,'cert/server.cert')
+    keyfile = os.path.join(topdir,'cert/server.key')
+    # app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True, ssl_context=(certfile, keyfile))
