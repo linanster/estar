@@ -1,4 +1,4 @@
-from settings import Debug
+from settings import Debug, TypeRestrict
 
 class CookJson(object):
     def __init__(self, raw):
@@ -35,9 +35,11 @@ class EnergyItem(object):
         deviceid = self.item.get('deviceid')
         # initial variable type of xlink api json is str, not int. This is awesome bad!
         deviceid = int(deviceid)
+        if Debug:
+            print('==deviceid==',deviceid)
         status = self.item.get('status')
         online = self.item.get('online')
-        if Debug:
+        if not TypeRestrict:
             self.formula = formula_clife
             return
         # device type restriction, only support 4 types
