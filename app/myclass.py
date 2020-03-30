@@ -62,7 +62,7 @@ class EnergyItem(object):
                     self.formula = formula_fullcolor_cct_high
         else:
             # todo
-            raise Exception('deviceid not supported')
+            raise Exception('unknown error')
             # pass
 
     def formula_run(self):
@@ -123,7 +123,7 @@ class RawParser(object):
 class DeviceTypeException(Exception):
     def __init__(self,deviceid):
         self.deviceid = deviceid
-        self.err_msg = "the device type [ " + str(deviceid) + " ] you querying" + " is not in support list [ 13, 27, 6, 21 ]"
+        self.err_msg = "device type ( " + str(deviceid) + " ) " + " not supported"
 
 class DeviceNotFoundException(Exception):
     def __init__(self):

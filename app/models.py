@@ -19,6 +19,6 @@ class User(UserMixin, db.Model):
     @staticmethod
     def seed():
         user_1 = User('user1', '123456')
-        user_2 = User('user2', '123456')
+        user_2 = User('estar', 'cbyge')
         db.session.add_all([user_1, user_2])
         db.session.commit()
