@@ -35,8 +35,6 @@ class EnergyItem(object):
         deviceid = self.item.get('deviceid')
         # initial variable type of xlink api json is str, not int. This is awesome bad!
         deviceid = int(deviceid)
-        if Debug:
-            print('==deviceid==',deviceid)
         status = self.item.get('status')
         online = self.item.get('online')
         if not TypeRestrict:
@@ -111,6 +109,8 @@ class RawParser(object):
             pass
 
         deviceid = self.get_deviceid()
+        if Debug:
+            print('==deviceid==',deviceid)
         datapoints = self.raw.get('datapoints')
         for datapoint in datapoints:
             item = dict()
