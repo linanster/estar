@@ -34,9 +34,9 @@ fi
 cd "$workdir/app"
 
 if [ "$1" == '--start' ]; then
-    echo "gunicorn --daemon --workers 4 --bind 0.0.0.0:443 wsgi:application --keyfile cert/server.key --certfile cert/server.cert"
-    gunicorn --daemon --workers 4 --bind 0.0.0.0:443 wsgi:application --keyfile ../cert/server.key --certfile ../cert/server.cert
-    # gunicorn --workers 4 --bind 0.0.0.0:443 wsgi:application --keyfile ../cert/server.key --certfile ../cert/server.cert
+    echo "gunicorn --daemon --workers 4 --bind 0.0.0.0:443 --keyfile ../cert/server.key --certfile ../cert/server.cert --timeout 30 wsgi:application"
+    gunicorn --daemon --workers 4 --bind 0.0.0.0:443 --keyfile ../cert/server.key --certfile ../cert/server.cert --timeout 30 wsgi:application
+    # gunicorn --workers 4 --bind 0.0.0.0:443 --keyfile ../cert/server.key --certfile ../cert/server.cert --timeout 30 wsgi:application
     sleep 1
     ps -ef | fgrep "gunicorn" | grep "application" | awk '{if($3==1) print $2}'
     exit 0
