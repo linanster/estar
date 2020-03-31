@@ -8,8 +8,8 @@ from settings import Debug
 
 # Debug = True
 
-auth = Blueprint('auth', __name__)
-main = Blueprint('main', __name__)
+auth = Blueprint('auth', __name__, url_prefix='/estar')
+main = Blueprint('main', __name__, url_prefix='/estar')
 
 def init_views(app):
     app.register_blueprint(auth)

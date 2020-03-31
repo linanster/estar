@@ -20,7 +20,7 @@
     <a href="{{ url_for('auth.login') }}">login</a>
     {% endif %}
     <hr>
-    <form action="/query" onsubmit="return validate_form(this)" method="post">
+    <form action="{{ url_for('main.query') }}" onsubmit="return validate_form(this)" method="post">
     <input type="text" name="mac" placeholder="ble mac address">
     <input type="submit" value="Query">
     </form>
