@@ -2,40 +2,50 @@
 
 {% block head %}
 
-{{ super() }}
+    {{ super() }}
 
-<!-- <script type="text/javascript" src="static/validate.js" ></script> -->
-<script src="{{ url_for('static',filename='validate.js') }}" type="text/javascript" ></script>
+    <!-- <script type="text/javascript" src="static/validate.js" ></script> -->
+    <script src="{{ url_for('static',filename='validate.js') }}" type="text/javascript"></script>
 
 {% endblock head %}
 
-{% block content%}
+{% block content %}
     {{ super() }}
     {% if current_user.is_authenticated %}
-    Welcome, {{ current_user.username }} | 
-    <a href="{{ url_for('auth.logout') }}">logout</a> | 
-    <a href="{{ url_for('main.about') }}">about</a>
+        Welcome, {{ current_user.username }} |
+        <a href="{{ url_for('auth.logout') }}">logout</a> |
+        <a href="{{ url_for('main.about') }}">about</a>
     {% else %}
-    Welcome, please 
-    <a href="{{ url_for('auth.login') }}">login</a>
+        Welcome, please
+        <a href="{{ url_for('auth.login') }}">login</a>
     {% endif %}
     <hr>
     <form action="{{ url_for('main.query') }}" onsubmit="return validate_form(this)" method="post">
-    <input type="text" name="mac" placeholder="ble mac address">
-    <input type="submit" value="Query">
+        <input type="text" name="mac" placeholder="ble mac address">
+        <input type="submit" value="Query">
     </form>
     <br>
     format example: F4:BC:DA:37:20:BA
     <br>
     {% if query %}
-    <hr>
-    {% if errno == 0 %}
-    <span>energy consumption over <strong>last 24 hours</strong>  estimation :</span>
-    <span class="text-success" > {{consumption_j}}</span> J  
-    (<span class="text-success">{{consumption_kwh}}</span> kwh)
-    {% else %}
-    <span class="text-danger">{{errmsg}}</span>
-    {% endif %}
+        <hr>
+        {% if errno == 0 %}
+            <span>energy consumption over <strong>last 24 hours</strong>  estimation :</span>
+            <span class="text-success"> {{ consumption_j }}</span> J
+            (<span class="text-success">{{ consumption_kwh }}</span> kwh)
+            <br>
+            <span>energy power over <strong>last 30 minutes</strong>  estimation :</span>
+            <span class="text-success"> {{ power_watt }}</span> Watt
+        {% elif errno == 4 %}
+            <span>energy consumption over <strong>last 24 hours</strong>  estimation :</span>
+            <span class="text-success"> {{ consumption_j }}</span> J
+            (<span class="text-success">{{ consumption_kwh }}</span> kwh)
+            <br>
+            <span>energy power over <strong>last 30 minutes</strong>  estimation :</span>
+            <span class="text-success"> none </span> Watt
+        {% else %}
+            <span class="text-danger">{{ errmsg }}</span>
+        {% endif %}
     {% endif %}
     <br>
 

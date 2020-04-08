@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask_login import login_user, logout_user, login_required
 
 from models import User
-from mylib import get_consumption
+from mylib import get_consumption, get_power, get_all
 from settings import Debug
 
 # Debug = True
@@ -28,15 +28,19 @@ def query():
         return redirect(url_for('main.index'))
     mac = request.form.get('mac')
     mac = transform(mac)
-    consumption_j, consumption_kwh, errno, errmsg = get_consumption(mac)
+    # consumption_j, consumption_kwh, errno, errmsg = get_consumption(mac)
+    # power_watt = get_power(mac)
+    consumption_j, consumption_kwh, power_watt, errno, errmsg = get_all(mac)
+     
     if Debug:
         print('==mac==', mac)
         print('==consumption_j==', consumption_j)
         print('==consumption_kwh==', consumption_kwh)
+        print('==power_watt==', power_watt)
         print('==errno==', errno)
         print('==errmsg==', errmsg)
         print('')
-    params = {"consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "errno":errno, "errmsg":errmsg, "query":True}
+    params = {"consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "power_watt":power_watt, "errno":errno, "errmsg":errmsg, "query":True}
     return render_template('index.html', **params)
 
 @main.route('/about')

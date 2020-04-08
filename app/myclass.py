@@ -1,3 +1,4 @@
+from datetime import datetime
 from settings import Debug, TypeRestrict
 
 class CookJson(object):
@@ -5,6 +6,8 @@ class CookJson(object):
         self.raw = raw
         self.items = list()
         self.sum = 0
+        # for_power_calculation
+        self.power = 0
 
     def gen_items(self):
         p = RawParser(self.raw)
@@ -16,6 +19,19 @@ class CookJson(object):
             e = EnergyItem(item)
             e.calc_item()
             self.sum += e.consumption
+    
+    # for_power_calculation
+    def calc_power(self):
+        try:
+            item = findlatest(self.items)
+            if Debug:
+                print('==item_latest==', item)
+            e = EnergyItem(item)
+            e.calc_item()
+            self.power = e.power
+        except Exception as e:
+            print(str(e))
+            raise PowerCalculationException(str(e))
         
 
 class EnergyItem(object):  
@@ -23,7 +39,8 @@ class EnergyItem(object):
     def __init__(self, item):
         self.consumption = 0
         self.power = 0
-        # item format like: {'status': 1, 'online': 1, 'cct': 100, 'brightness': 100, 'deviceid': 13}
+        # item type is dict
+        # item format like: {'status': 1, 'online': 1, 'cct': 100, 'brightness': 100, 'deviceid': 13, 'time': '2020-03-24 04:00:00'}
         self.item = item
         self.formula = None
         self.brightness = item.get('brightness')/100
@@ -101,13 +118,18 @@ class RawParser(object):
         
     def gen_items(self):
         # errno handler
+        # type of errno is <class 'int'>
         errno = self.get_errno()
         if errno == 400:
             raise DeviceNotFoundException()
 
+        if errno == 401:
+            raise NoDataException()
+
         if errno == 0:
             pass
-
+        
+        # shared property
         deviceid = self.get_deviceid()
         if Debug:
             print('==deviceid==',deviceid)
@@ -118,18 +140,33 @@ class RawParser(object):
             item['online'] = datapoint.get('online')
             item['cct'] = datapoint.get('cct')
             item['brightness'] = datapoint.get('brightness')
+            # for_power_calculation
+            item['time'] = datapoint.get('time')
             # deviceid
             item['deviceid'] = deviceid
             self.items.append(item) 
 
+# errno -2
 class DeviceTypeException(Exception):
     def __init__(self,deviceid):
         self.deviceid = deviceid
         self.err_msg = "device type ( " + str(deviceid) + " ) " + " not supported"
 
+# errno -3
 class DeviceNotFoundException(Exception):
     def __init__(self):
         self.err_msg = "device not found"
+
+# errno -4
+class PowerCalculationException(Exception):
+    def __init__(self, ori_msg):
+        self.err_msg = "parse last 30 min datapoint error"
+        self.ori_msg = ori_msg
+
+# errno -5
+class NoDataException(Exception):
+    def __init__(self):
+        self.err_msg = "no device state data"
 
 def formula_clife(x):
     return 9.2707*x*x - 0.978*x + 0.6813
@@ -145,3 +182,17 @@ def formula_fullcolor_cct_high(x):
 
 def formula_off(x):
     return 0
+
+# for_power_calculation
+def findlatest(items):
+    format_pattern = "%Y-%m-%d %H:%M:%S"
+    item_latest = items[0]
+    for item in items[1:]:
+        d1 = datetime.strptime(item_latest.get('time'), format_pattern)
+        d2 = datetime.strptime(item.get('time'), format_pattern)
+        if d1 < d2:
+            item_latest = item
+        else:
+            continue
+    return item_latest
+       
