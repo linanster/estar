@@ -1,18 +1,30 @@
 {% extends '_mybase.html' %}
 
 {% block content %}
-{{ super() }}
-  Welcome, {{ current_user.username }} |
-  <a href="{{ url_for('main.index') }}">return</a>
-  <hr>
-  <p>This is the energy comsumption query portal supporting four device types:</p>
+    {{ super() }}
+    Welcome, {{ current_user.username }} |
+    <a href="{{ url_for('main.index') }}">return</a>
+    <hr>
+    <p>This is the energy comsumption query portal supporting four device types:</p>
 
-  <strong>C life:</strong><br>
-  CLEDA199L2/ST@ | GE Standalone | 0x0D <br>
-  CLEDA199L2/G@ | Made for Google | 0x1B <br>
-  <br>
-  <strong>Full Color A19:</strong><br>
-  CLEDA1911C2/G@ | Made for Google | 0x06<br>
-  CLEDA1911C2/ST@ | Standard | 0x15<br>
+    <strong>C life:</strong><br>
+    <ul>
+        <li>CLEDA199L2/ST@ | GE Standalone | 0x0D</li>
+        <li>CLEDA199L2/G@ | Made for Google | 0x1B</li>
+    </ul>
+    <strong>Full Color A19:</strong><br>
+    <ul>
+        <li>CLEDA1911C2/G@ | Made for Google | 0x06</li>
+        <li>CLEDA1911C2/ST@ | Standard | 0x15</li>
+    </ul>
+    <hr>
+    <strong>Temporary test instances at Shanghai CTC lab:</strong><br>
+    <ul>
+        <li>Full color light 4 | F4:BC:DA:3A:B6:57 | 57B63ADABCF4</li>
+        <li>C-life 3 | A4:C1:38:5B:5D:C9 | C95D5B38C1A4</li>
+        <li>Full color light 2 | F4:BC:DA:3A:B5:94 | 94B53ADABCF4</li>
+        <li>C-life 1 | A4:C1:38:72:8E:11 | 118E7238C1A4</li>
+    </ul>
 
 {% endblock %}
+

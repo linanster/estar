@@ -1,0 +1,29 @@
+{% extends '_mybase.html' %}
+
+{% block content %}
+{{ super() }}
+
+<div style="padding-left: 10px">
+<table border="1">
+    <tr>
+        <th>#</th>
+        <th>filename</th>
+        <th>operation</th>
+    </tr>
+    {% for file in filelist %}
+        <tr>
+            <td>&nbsp;{{ loop.index }}&nbsp;</td>
+            <td>&nbsp;{{ file }}&nbsp;</td>
+            <td>
+                &nbsp;
+                <a href="{{ url_for('main.cmd_logview', filename=file) }}">view</a>&nbsp;
+                <a href="{{ url_for('main.cmd_logdownload', filename=file) }}">download</a>&nbsp; &nbsp;
+            </td>
+        </tr>
+    {% else %}
+    {% endfor %}
+</table>
+</div>
+
+
+{% endblock %}

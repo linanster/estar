@@ -3,6 +3,7 @@ from requests.packages.urllib3 import disable_warnings
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 from myclass import CookJson, DeviceTypeException, DeviceNotFoundException, PowerCalculationException, NoDataException
+from mylogger import logger
  
 disable_warnings(InsecureRequestWarning)
 
@@ -68,7 +69,7 @@ def get_power(mac):
         power_watt = _cook_json_forpower(raw)
         power_watt = round(power_watt, 3)
     except Exception as e:
-        print(str(e))
+        logger.error(str(e))
         return -1
     return power_watt
 
@@ -80,7 +81,6 @@ def get_all(mac):
     errmsg = str()
     try:
         raw = _get_json(mac)
-        # print('raw', raw)
         consumption_j, power_watt = _cook_json_all(raw)
         
         consumption_kwh = consumption_j/(1000*3600)
@@ -96,8 +96,7 @@ def get_all(mac):
     except PowerCalculationException as e:
         errno = -4
         errmsg = e.err_msg
-        if Debug:
-            print(e.ori_msg)
+        logger.error(e.ori_msg)
         
     except DeviceNotFoundException as e:
         errno = -3
@@ -109,7 +108,7 @@ def get_all(mac):
     except Exception as e:
         errno = -1
         errmsg = 'unknown error'
-        print(str(e))
+        logger.error(str(e))
     finally:
         return (consumption_j, consumption_kwh, power_watt, errno, errmsg)
 

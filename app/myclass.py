@@ -1,5 +1,6 @@
 from datetime import datetime
 from settings import Debug, TypeRestrict
+from mylogger import logger
 
 class CookJson(object):
     def __init__(self, raw):
@@ -24,13 +25,12 @@ class CookJson(object):
     def calc_power(self):
         try:
             item = findlatest(self.items)
-            if Debug:
-                print('==item_latest==', item)
+            logger.info('==item_latest=={}'.format(item))
             e = EnergyItem(item)
             e.calc_item()
             self.power = e.power
         except Exception as e:
-            print(str(e))
+            logger.error(str(e))
             raise PowerCalculationException(str(e))
         
 
@@ -131,8 +131,7 @@ class RawParser(object):
         
         # shared property
         deviceid = self.get_deviceid()
-        if Debug:
-            print('==deviceid==',deviceid)
+        logger.info('==deviceid=={}'.format(deviceid))
         datapoints = self.raw.get('datapoints')
         for datapoint in datapoints:
             item = dict()
