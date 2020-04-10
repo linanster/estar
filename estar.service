@@ -8,4 +8,4 @@ ExecReload=
 ExecStop=/git/estar/app/run.sh --stop
 
 [Install]
-WantedBy=Multi-user.target
+WantedBy=multi-user.target
