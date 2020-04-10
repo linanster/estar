@@ -41,9 +41,9 @@ def query():
     logger.info('==mac=={}'.format(mac))
     logger.info('==consumption_j=={}'.format(consumption_j))
     logger.info('==consumption_kwh=={}'.format(consumption_kwh))
-    logger.info('==power_watt=='.format(power_watt))
-    logger.info('==errno=='.format(errno))
-    logger.info('==errmsg=='.format(errmsg))
+    logger.info('==power_watt=={}'.format(power_watt))
+    logger.info('==errno=={}'.format(errno))
+    logger.info('==errmsg=={}'.format(errmsg))
     logger.info('')
     params = {"consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "power_watt":power_watt, "errno":errno, "errmsg":errmsg, "query":True}
     return render_template('index.html', **params)
