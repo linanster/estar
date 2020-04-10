@@ -6,5 +6,4 @@
 **/*.sqlite
 **/__pycache__
 venv
-log/
-!log/.keep
+log/*log.txt*
