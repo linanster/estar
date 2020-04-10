@@ -51,6 +51,7 @@ def query():
 @auth.route('/login', methods=['GET', 'POST'])
 @viewfunclog
 def login():
+    logger.warn('client from {}'.format(request.remote_addr))
     if request.method == 'GET':
         return render_template('login.html')
     username = request.form.get('username')
