@@ -3,9 +3,10 @@ Description=Energy Star Query Web Service
 
 [Service]
 Type=forking
-ExecStart=/git/estar/app/run.sh --start
+ExecStart=/git/estar/run.sh --start
 ExecReload=
-ExecStop=/git/estar/app/run.sh --stop
+ExecStop=/git/estar/run.sh --stop
 
 [Install]
 WantedBy=multi-user.target
+WantedBy=graphical.target
