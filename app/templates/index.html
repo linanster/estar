@@ -34,14 +34,14 @@
             <span class="text-success"> {{ consumption_j }}</span> J
             (<span class="text-success">{{ consumption_kwh }}</span> kwh)
             <br>
-            <span>energy power over <strong>last 30 minutes</strong>  estimation :</span>
+            <span>instantaneous power over <strong>last 30 minutes</strong>  estimation :</span>
             <span class="text-success"> {{ power_watt }}</span> Watt
         {% elif errno == 4 %}
             <span>energy consumption over <strong>last 24 hours</strong>  estimation :</span>
             <span class="text-success"> {{ consumption_j }}</span> J
             (<span class="text-success">{{ consumption_kwh }}</span> kwh)
             <br>
-            <span>energy power over <strong>last 30 minutes</strong>  estimation :</span>
+            <span>instantaneous power over <strong>last 30 minutes</strong>  estimation :</span>
             <span class="text-success"> none </span> Watt
         {% else %}
             <span class="text-danger">{{ errmsg }}</span>
