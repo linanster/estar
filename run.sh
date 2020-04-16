@@ -36,17 +36,17 @@ fi
 cd "$workdir/app"
 
 if [ "$1" == '--start' ]; then
-    # echo "gunicorn --daemon --workers 4 --bind 0.0.0.0:443 --keyfile ../cert/server.key --certfile ../cert/server.cert --timeout ${TIMEOUT} wsgi:application"
-    # gunicorn --daemon --workers 4 --bind 0.0.0.0:443 --keyfile ../cert/server.key --certfile ../cert/server.cert --timeout "${TIMEOUT}" wsgi:application
-    echo "gunicorn --daemon --workers 4 --bind 0.0.0.0:80  --timeout ${TIMEOUT} wsgi:application"
-    gunicorn --daemon --workers 4 --bind 0.0.0.0:80 --timeout "${TIMEOUT}" wsgi:application
+    # echo "gunicorn --daemon --workers 4 --bind 0.0.0.0:443 --keyfile ../cert/server.key --certfile ../cert/server.cert --timeout ${TIMEOUT} wsgi:application_ge_estar"
+    # gunicorn --daemon --workers 4 --bind 0.0.0.0:443 --keyfile ../cert/server.key --certfile ../cert/server.cert --timeout "${TIMEOUT}" wsgi:application_ge_estar
+    echo "gunicorn --daemon --workers 4 --bind 0.0.0.0:80  --timeout ${TIMEOUT} wsgi:application_ge_estar"
+    gunicorn --daemon --workers 4 --bind 0.0.0.0:80 --timeout "${TIMEOUT}" wsgi:application_ge_estar
     sleep 1
-    ps -ef | fgrep "gunicorn" | grep "application" | awk '{if($3==1) print $2}'
+    ps -ef | fgrep "gunicorn" | grep "application_ge_estar" | awk '{if($3==1) print $2}'
     exit 0
 fi
 
 if [ "$1" == "--stop" ]; then
-    pid=$(ps -ef | fgrep "gunicorn" | grep "application" | awk '{if($3==1) print $2}')
+    pid=$(ps -ef | fgrep "gunicorn" | grep "application_ge_estar" | awk '{if($3==1) print $2}')
     if [ "$pid" == "" ]; then
         echo "not running" 
     else
@@ -57,7 +57,7 @@ if [ "$1" == "--stop" ]; then
 fi
 
 if [ "$1" == "--status" ]; then
-    pid=$(ps -ef | fgrep "gunicorn" | grep "application" | awk '{if($3==1) print $2}')
+    pid=$(ps -ef | fgrep "gunicorn" | grep "application_ge_estar" | awk '{if($3==1) print $2}')
     echo "$pid"
     if [ "$pid" == "" ]; then
         echo "stopped" 
