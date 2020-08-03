@@ -32,8 +32,8 @@ def index():
 def query():
     if request.method == 'GET':
         return redirect(url_for('main.index'))
-    mac = request.form.get('mac')
-    mac = transform(mac)
+    mac_input = request.form.get('mac')
+    mac = transform(mac_input)
     # consumption_j, consumption_kwh, errno, errmsg = get_consumption(mac)
     # power_watt = get_power(mac)
     consumption_j, consumption_kwh, power_watt, errno, errmsg = get_all(mac)
@@ -45,7 +45,7 @@ def query():
     logger.info('==errno=={}'.format(errno))
     logger.info('==errmsg=={}'.format(errmsg))
     logger.info('')
-    params = {"consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "power_watt":power_watt, "errno":errno, "errmsg":errmsg, "query":True}
+    params = {"mac_input":mac_input, "consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "power_watt":power_watt, "errno":errno, "errmsg":errmsg, "query":True}
     return render_template('index.html', **params)
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -98,7 +98,7 @@ def transform(mac):
 # mac format on App side: "A4:C1:38:6D:40:1D"
 # mac format on database side: "1D406D38C1A4"
     mac_list = mac.split(':')
-    mac_list.reverse()
+    # mac_list.reverse()
     mac_new = "".join(mac_list)
     # case sensitive
     return mac_new.upper()

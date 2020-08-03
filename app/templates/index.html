@@ -25,10 +25,14 @@
         <input type="submit" value="Query">
     </form>
     <br>
-    format example: F4:BC:DA:3A:B6:57
+    format example: 78:6D:EB:01:17:BD
     <br>
     {% if query %}
         <hr>
+        {% if mac_input %}
+            <span>mac address input: {{ mac_input }}</span>
+            <br>
+        {% endif %}
         {% if errno == 0 %}
             <span>energy consumption over <strong>last 24 hours</strong>  estimation :</span>
             <span class="text-success"> {{ consumption_j }}</span> J
