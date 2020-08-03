@@ -5,7 +5,7 @@
     Welcome, {{ current_user.username }} |
     <a href="{{ url_for('main.index') }}">return</a>
     <hr>
-    <p>This is the energy comsumption query portal supporting four device types:</p>
+    <p>This is the energy comsumption query portal supporting below device types:</p>
 
     <strong>C life:</strong><br>
     <ul>
@@ -17,13 +17,22 @@
         <li>CLEDA1911C2/G@ | Made for Google | 0x06</li>
         <li>CLEDA1911C2/ST@ | Standard | 0x15</li>
     </ul>
+    <strong>Dual Mode:</strong><br>
+    <ul>
+        <li>Direct Connect Soft White Bulb (A19) | 0x80</li>
+        <li>Direct Connect Tunable White Bulb (A19) | 0x81</li>
+        <li>Direct Connect Tunable White Bulb (BR30 Floodlight) | 0x82</li>
+        <li>Direct Connect Full Color Bulb (A19) | 0x83</li>
+        <li>Direct Connect Full Color Bulb (BR30 Floodlight) | 0x84</li>
+    </ul>
     <hr>
     <strong>Temporary test instances at Shanghai CTC lab:</strong><br>
     <ul>
-        <li>Full color light 4 | F4:BC:DA:3A:B6:57 | 57B63ADABCF4</li>
-        <li>C-life 3 | A4:C1:38:5B:5D:C9 | C95D5B38C1A4</li>
-        <li>Full color light 2 | F4:BC:DA:3A:B5:94 | 94B53ADABCF4</li>
-        <li>C-life 1 | A4:C1:38:72:8E:11 | 118E7238C1A4</li>
+        <li>0x80 | 78:6D:EB:01:17:BD | 786DEB0117BD | BD1701EB6D78(reversed)</li>
+        <li>0x81 | 78:6D:EB:01:13:3E | 786DEB01133E | 3E1301EB6D78(reversed)</li>
+        <li>0x82 | 78:6D:EB:01:1E:6A | 786DEB011E6A | 6A1E01EB6D78(reversed)</li>
+        <li>0x83 | 78:6D:EB:03:09:33 | 786DEB030933 | 330903EB6D78(reversed)</li>
+        <li>0x84 | 78:6D:EB:03:07:37 | 786DEB030737 | 370703EB6D78(reversed)</li>
     </ul>
 
 {% endblock %}

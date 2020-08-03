@@ -46,7 +46,6 @@ class EnergyItem(object):
         self.brightness = item.get('brightness')/100
         self.cct_raw = self.item.get('cct') 
         self.cct = 2000 + item.get('cct') * 50
-        self.cctrequired = False
 
     def formula_select(self):
         deviceid = self.item.get('deviceid')
@@ -58,7 +57,7 @@ class EnergyItem(object):
             self.formula = formula_clife
             return
         # device type restriction, only support 4 types
-        if deviceid not in (13,27,6,21):
+        if deviceid not in (13, 27, 6, 21, 128, 129, 130, 131, 132):
             raise DeviceTypeException(deviceid)
         if status == 0 or online == 0:
             self.formula = formula_off
@@ -69,14 +68,70 @@ class EnergyItem(object):
         elif deviceid in (6, 21):
             # rgb mode 
             if self.cct_raw > 100:
-                self.formula = formular_fullcolor_rgb
+                self.formula = formula_fullcolor_rgb
             # cct mode
             else:
                 if self.cct < 2700:
                     self.formula = formula_fullcolor_cct_low
-                    self.cctrequired = True
                 else:
                     self.formula = formula_fullcolor_cct_high
+
+        ####################################
+        # support extra five new device id #
+        ####################################
+
+        # 0x80
+        elif deviceid == 128:
+            self.formula = formula_0x80
+
+        # 0x81
+        elif deviceid == 129:
+            # rgb mode
+            if self.cct_raw > 100:
+                self.formula = formula_0x81_rgb
+            # cct mode
+            else:
+                if self.cct < 2700:
+                    self.formula = formula_0x81_cct_low
+                else:
+                    self.formula = formula_0x81_cct_high
+
+        # 0x82
+        elif deviceid == 130:
+            # rgb mode
+            if self.cct_raw > 100:
+                self.formula = formula_0x82_rgb
+            # cct mode
+            else:
+                if self.cct < 2700:
+                    self.formula = formula_0x82_cct_low
+                else:
+                    self.formula = formula_0x82_cct_high
+
+        # 0x83
+        elif deviceid == 131:
+            # rgb mode
+            if self.cct_raw > 100:
+                self.formula = formula_0x83_rgb
+            # cct mode
+            else:
+                if self.cct < 2700:
+                    self.formula = formula_0x83_cct_low
+                else:
+                    self.formula = formula_0x83_cct_high
+
+        # 0x84
+        elif deviceid == 132:
+            # rgb mode
+            if self.cct_raw > 100:
+                self.formula = formula_0x84_rgb
+            # cct mode
+            else:
+                if self.cct < 2700:
+                    self.formula = formula_0x84_cct_low
+                else:
+                    self.formula = formula_0x84_cct_high
+
         else:
             # todo
             raise Exception('unknown error')
@@ -84,10 +139,7 @@ class EnergyItem(object):
 
     def formula_run(self):
         # power in unit Watt
-        if self.cctrequired:
-            self.power = self.formula(self.brightness, self.cct)
-        else:
-            self.power = self.formula(self.brightness)
+        self.power = self.formula(self.brightness, self.cct)
         # energy consumptoion in unit Joule
         # half one hour = 30 * 60 seconds
         self.consumption = self.power * 30 * 60
@@ -167,19 +219,58 @@ class NoDataException(Exception):
     def __init__(self):
         self.err_msg = "no device state data"
 
-def formula_clife(x):
+def formula_clife(x, cct):
     return 9.2707*x*x - 0.978*x + 0.6813
 
-def formular_fullcolor_rgb(x):
+def formula_fullcolor_rgb(x, cct):
     return 3.7757*x + 0.2075
 
 def formula_fullcolor_cct_low(x, cct):
     return (5.4057*x + 0.5807)*(2700-cct)/700 + (8.6608*x + 0.3294)*(cct-2000)/700
 
-def formula_fullcolor_cct_high(x):
+def formula_fullcolor_cct_high(x, cct):
     return 8.6608*x + 0.3294
 
-def formula_off(x):
+def formula_0x80(x, cct):
+    return 8.7503*x+0.1781
+
+def formula_0x81_rgb(x, cct):
+    return 8.4849*x + 0.1275
+
+def formula_0x81_cct_low(x, cct):
+    return (8.4849*x + 0.1275)*(2700-cct)/700 + (4.5038*x + 0.389)*(cct-2000)/700
+
+def formula_0x81_cct_high(x, cct):
+    return (8.4855*x + 0.1101)*(7000-cct)/4300 + (8.4849*x + 0.1275)*(cct-2700)/4300
+
+def formula_0x82_rgb(x, cct):
+    return 9.5321*x + 0.1206
+
+def formula_0x82_cct_low(x, cct):
+    return (9.5321*x + 0.1206)*(2700-cct)/700 + (4.9742*x + 0.3245)*(cct-2000)/700
+
+def formula_0x82_cct_high(x, cct):
+    return (9.4874*x + 0.1249)*(7000-cct)/4300 + (9.5321*x + 0.1206)*(cct-2700)/4300
+
+def formula_0x83_rgb(x, cct):
+    return 3.9704*x + 0.2362
+
+def formula_0x83_cct_low(x, cct):
+    return (5.5786*x + 0.6811)*(2700-cct)/700 + (8.9906*x + 0.3885)*(cct-2000)/700
+
+def formula_0x83_cct_high(x, cct):
+    return 8.944*x + 0.4095
+
+def formula_0x84_rgb(x, cct):
+    return 3.8855*x + 0.1387
+
+def formula_0x84_cct_low(x, cct):
+    return (5.4535*x + 0.5145)*(2700-cct)/700 + (8.7711*x + 0.2344)*(cct-2000)/700
+
+def formula_0x84_cct_high(x, cct):
+    return 9.4138*x + 0.2481
+
+def formula_off(x, cct):
     return 0
 
 # for_power_calculation

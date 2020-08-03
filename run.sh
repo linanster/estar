@@ -38,8 +38,14 @@ cd "$workdir/app"
 if [ "$1" == '--start' ]; then
     # echo "gunicorn --daemon --workers 4 --bind 0.0.0.0:443 --keyfile ../cert/server.key --certfile ../cert/server.cert --timeout ${TIMEOUT} wsgi:application_ge_estar"
     # gunicorn --daemon --workers 4 --bind 0.0.0.0:443 --keyfile ../cert/server.key --certfile ../cert/server.cert --timeout "${TIMEOUT}" wsgi:application_ge_estar
-    echo "gunicorn --daemon --workers 4 --bind 0.0.0.0:80  --timeout ${TIMEOUT} wsgi:application_ge_estar"
-    gunicorn --daemon --workers 4 --bind 0.0.0.0:80 --timeout "${TIMEOUT}" wsgi:application_ge_estar
+
+    if [ "$2" == '--nodaemon' ]; then
+      echo "gunicorn --workers 4 --bind 0.0.0.0:80  --timeout ${TIMEOUT} wsgi:application_ge_estar"
+      gunicorn --workers 4 --bind 0.0.0.0:80 --timeout "${TIMEOUT}" wsgi:application_ge_estar
+    else:
+      echo "gunicorn --daemon --workers 4 --bind 0.0.0.0:80  --timeout ${TIMEOUT} wsgi:application_ge_estar"
+      gunicorn --daemon --workers 4 --bind 0.0.0.0:80 --timeout "${TIMEOUT}" wsgi:application_ge_estar
+    fi
     sleep 1
     ps -ef | fgrep "gunicorn" | grep "application_ge_estar" | awk '{if($3==1) print $2}'
     exit 0
