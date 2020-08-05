@@ -42,7 +42,7 @@ if [ "$1" == '--start' ]; then
     if [ "$2" == '--nodaemon' ]; then
       echo "gunicorn --workers 4 --bind 0.0.0.0:80  --timeout ${TIMEOUT} wsgi:application_ge_estar"
       gunicorn --workers 4 --bind 0.0.0.0:80 --timeout "${TIMEOUT}" wsgi:application_ge_estar
-    else:
+    else
       echo "gunicorn --daemon --workers 4 --bind 0.0.0.0:80  --timeout ${TIMEOUT} wsgi:application_ge_estar"
       gunicorn --daemon --workers 4 --bind 0.0.0.0:80 --timeout "${TIMEOUT}" wsgi:application_ge_estar
     fi
