@@ -97,8 +97,9 @@ def logout():
 def transform(mac):
 # mac format on App side: "A4:C1:38:6D:40:1D"
 # mac format on database side: "1D406D38C1A4"
-    mac_list = mac.split(':')
+    # mac_list = mac.split(':')
     # mac_list.reverse()
-    mac_new = "".join(mac_list)
+    # mac_new = "".join(mac_list)
     # case sensitive
-    return mac_new.upper()
+    # return mac_new.upper()
+    return mac

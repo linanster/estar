@@ -27,8 +27,8 @@ with (thisform)
   if (validate_required(mac,"mac address must be filled out!")==false)
     {mac.focus();return false}
    
-  if (validate_format(mac,"bad mac address format!")==false)
-    {mac.focus();return false}
+  /*if (validate_format(mac,"bad mac address format!")==false)
+    {mac.focus();return false}*/
   }
 }
 
