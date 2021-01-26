@@ -33,10 +33,29 @@ def query():
     if request.method == 'GET':
         return redirect(url_for('main.index'))
     mac_input = request.form.get('mac')
-    mac = transform(mac_input)
-    # consumption_j, consumption_kwh, errno, errmsg = get_consumption(mac)
-    # power_watt = get_power(mac)
-    consumption_j, consumption_kwh, power_watt, errno, errmsg = get_all(mac)
+    logger.info('==mac_input=={}'.format(mac_input))
+
+    # version 1
+    # pass mac from page to xlink api without no changes
+    # mac = transform(mac_input)
+    # consumption_j, consumption_kwh, power_watt, errno, errmsg = get_all(mac)
+
+    # version 2
+    # gen 4 macs from mac_input, and try one by one when encounter DeviceNotFound response
+    macs = gen_4_macs(mac_input)
+    index = 1
+    logger.info('==macs=={}'.format(macs))
+    for mac in macs:
+        logger.info('==try mac({})=={}'.format(index, mac))
+        consumption_j, consumption_kwh, power_watt, errno, errmsg = get_all(mac)
+        logger.info('==errno=={}'.format(errno))
+        index += 1
+        # if errno != 0:
+        if errno == -3:
+            continue
+        else:
+            break
+    # end version 2
      
     logger.info('==mac=={}'.format(mac))
     logger.info('==consumption_j=={}'.format(consumption_j))
@@ -103,3 +122,34 @@ def transform(mac):
     # case sensitive
     # return mac_new.upper()
     return mac
+
+def gen_4_macs(mac):
+    mac_upper = mac.upper()
+    mac_lower = mac.lower()
+    mac_upper_reverse = reverse_mac(mac_upper)
+    mac_lower_reverse = reverse_mac(mac_lower)
+    macs = list()
+    macs.append(mac_lower)
+    macs.append(mac_upper)
+    macs.append(mac_lower_reverse)
+    macs.append(mac_upper_reverse)
+    return macs
+
+def split_per_2(mystr):
+    index = 0
+    mylist = list()
+    for letter in mystr:
+        if index%2 == 0:
+            seg = letter
+        else:
+            seg = seg + letter
+            mylist.append(seg)
+        index += 1
+    return mylist
+
+def reverse_mac(mac):
+    mac_list = split_per_2(mac)
+    mac_list.reverse()
+    mac_reverse = "".join(mac_list)
+    return mac_reverse
+        
