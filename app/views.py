@@ -77,7 +77,15 @@ def query():
     logger.info('==errno=={}'.format(errno))
     logger.info('==errmsg=={}'.format(errmsg))
     logger.info('')
-    params = {"mac_input":mac_input, "consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "power_watt":power_watt, "errno":errno, "errmsg":errmsg, "query":True}
+    params = {
+        "mac_input":mac_input,
+        "consumption_j":consumption_j,
+        "consumption_kwh":consumption_kwh,
+        "power_watt":power_watt,
+        "errno":errno,
+        "errmsg":errmsg,
+        "query":True,
+    }
     return render_template('index.html', **params)
 
 
@@ -125,7 +133,18 @@ def query():
     logger.info('==errno=={}'.format(errno))
     logger.info('==errmsg=={}'.format(errmsg))
     logger.info('')
-    params = {"mac_input":mac_input, "mac_tried":mac_tried, "mac_match":mac_match, "consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "power_watt":power_watt, "errno":errno, "errmsg":errmsg, "query":True}
+    params = {
+        "mac_input":mac_input,
+        "mac_totry":macs,
+        "mac_tried":mac_tried,
+        "mac_match":mac_match,
+        "consumption_j":consumption_j,
+        "consumption_kwh":consumption_kwh,
+        "power_watt":power_watt,
+        "errno":errno,
+        "errmsg":errmsg,
+        "query":True,
+    }
     return render_template('index_debug.html', **params)
 
 @auth.route('/login', methods=['GET', 'POST'])
