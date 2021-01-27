@@ -14,6 +14,7 @@ from mylogger import logger
 
 auth = Blueprint('auth', __name__, url_prefix='/estar')
 main = Blueprint('main', __name__, url_prefix='/estar')
+#debug = Blueprint('debug', __name__, url_prefix='/estar/debug')
 
 def init_views(app):
     app.register_blueprint(auth)
@@ -43,14 +44,19 @@ def query():
     # version 2
     # gen 4 macs from mac_input, and try one by one when encounter DeviceNotFound response
     macs = gen_4_macs(mac_input)
+    mac_match = None
+    mac_tried = list()
     index = 1
     logger.info('==macs=={}'.format(macs))
     for mac in macs:
+        mac_tried.append(mac)
         logger.info('==try mac({})=={}'.format(index, mac))
         consumption_j, consumption_kwh, power_watt, errno, errmsg = get_all(mac)
         logger.info('==errno=={}'.format(errno))
         index += 1
         # if errno != 0:
+        if errno == 0:
+            mac_match = mac
         if errno == -3:
             continue
         else:
@@ -64,7 +70,7 @@ def query():
     logger.info('==errno=={}'.format(errno))
     logger.info('==errmsg=={}'.format(errmsg))
     logger.info('')
-    params = {"mac_input":mac_input, "consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "power_watt":power_watt, "errno":errno, "errmsg":errmsg, "query":True}
+    params = {"mac_input":mac_input, "mac_tried":mac_tried, "mac_match":mac_match, "consumption_j":consumption_j, "consumption_kwh":consumption_kwh, "power_watt":power_watt, "errno":errno, "errmsg":errmsg, "query":True}
     return render_template('index.html', **params)
 
 @auth.route('/login', methods=['GET', 'POST'])

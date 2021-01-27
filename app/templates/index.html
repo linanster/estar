@@ -33,7 +33,9 @@
             <span>mac address input: {{ mac_input }}</span>
             <br>
         {% endif %} -->
-        <span>mac address input: {{ mac_input }}</span>
+        <span>mac address input: {{ mac_input }}</span><br>
+        <span>mac address tried: {{ mac_tried }}</span><br>
+        <span>mac address match: {{ mac_match }}</span>
         <br>
         {% if errno == 0 %}
             <span>energy consumption over <strong>last 24 hours</strong>  estimation :</span>
