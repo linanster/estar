@@ -21,12 +21,12 @@
     {% endif %}
     <hr>
     <form action="{{ url_for('debug.query') }}" onsubmit="return validate_form(this)" method="post">
-        <input type="text" name="mac" placeholder="ble mac address">
+        <input type="text" name="mac" placeholder="ble mac address" value="{% if mac_input %}{{mac_input}}{% endif %}">
         <input type="submit" value="Query">
     </form>
     <br>
-    <!-- format example: 78:6D:EB:01:17:BD -->
     <br>
+    <!-- format example: 78:6D:EB:01:17:BD -->
     {% if query %}
         <hr>
         <!-- {% if mac_input %}
