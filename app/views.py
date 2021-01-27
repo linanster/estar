@@ -15,11 +15,13 @@ from mylogger import logger
 auth = Blueprint('auth', __name__, url_prefix='/estar')
 main = Blueprint('main', __name__, url_prefix='/estar')
 debug = Blueprint('debug', __name__, url_prefix='/estar/debug')
+debug1 = Blueprint('debug1', __name__, url_prefix='/estar/debug1')
 
 def init_views(app):
     app.register_blueprint(auth)
     app.register_blueprint(main)
     app.register_blueprint(debug)
+    app.register_blueprint(debug1)
 
 @main.route('/')
 @main.route('/index')
@@ -27,13 +29,6 @@ def init_views(app):
 @viewfunclog
 def index():
     return render_template('index.html', new=1)
-
-@debug.route('/')
-@debug.route('/index')
-@login_required
-@viewfunclog
-def index():
-    return render_template('index_debug.html', new=1)
 
 @main.route('/query', methods=['GET', 'POST'])
 @login_required
@@ -90,6 +85,14 @@ def query():
 
 
 # debug view
+
+@debug.route('/')
+@debug.route('/index')
+@login_required
+@viewfunclog
+def index():
+    return render_template('index_debug.html', new=1)
+
 @debug.route('/query', methods=['GET', 'POST'])
 @login_required
 @viewfunclog
@@ -146,6 +149,67 @@ def query():
         "query":True,
     }
     return render_template('index_debug.html', **params)
+
+
+# debug1 view
+
+@debug1.route('/')
+@debug1.route('/index')
+@login_required
+@viewfunclog
+def index():
+    return render_template('index_debug1.html', new=1)
+
+@debug1.route('/query', methods=['GET', 'POST'])
+@login_required
+@viewfunclog
+def query():
+    if request.method == 'GET':
+        return redirect(url_for('debug1.index'))
+    mac_input = request.form.get('mac')
+
+    # version 1
+    # pass mac from page to xlink api without no changes
+    # mac = transform(mac_input)
+    # consumption_j, consumption_kwh, power_watt, errno, errmsg = get_all(mac)
+
+    # version 3
+    # gen 4 macs from mac_input, and try all
+    results = list()
+    macs = gen_4_macs(mac_input)
+    logger.info('==mac_input=={}'.format(mac_input))
+    logger.info('==macs=={}'.format(macs))
+    logger.info('')
+    index = 1
+    for mac in macs:
+        logger.info('==try mac({})=={}'.format(index, mac))
+        consumption_j, consumption_kwh, power_watt, errno, errmsg = get_all(mac)
+        logger.info('==mac=={}'.format(mac))
+        logger.info('==consumption_j=={}'.format(consumption_j))
+        logger.info('==consumption_kwh=={}'.format(consumption_kwh))
+        logger.info('==power_watt=={}'.format(power_watt))
+        logger.info('==errno=={}'.format(errno))
+        logger.info('==errmsg=={}'.format(errmsg))
+        logger.info('')
+        result = {
+            "mac":mac,
+            "consumption_j":consumption_j,
+            "consumption_kwh":consumption_kwh,
+            "power_watt":power_watt,
+            "errno":errno,
+            "errmsg":errmsg,
+        }
+        results.append(result)
+        index += 1
+
+    params = {
+        "query": True,
+        "mac_input": mac_input,
+        "mac_totry": macs,
+        "results": results,
+    }
+
+    return render_template('index_debug1.html', **params)
 
 @auth.route('/login', methods=['GET', 'POST'])
 @viewfunclog
